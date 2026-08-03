@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "student.h"
+#include "../include/student.h"
 
 Student studentList[MAX_STUDENTS];
 int studentCount = 0;
@@ -92,10 +92,10 @@ int deleteStudent(int id){
 };
 
 
-int saveOnFile(const char *fileName){
-    FILE *f = fopen(fileName, "w");
+int saveOnFile(const char *filePath){
+    FILE *f = fopen(filePath, "w");
     if (f == NULL){
-        printf("Connot open %s as writing\n", fileName);
+        printf("Cannot open %s as writing\n", filePath);
         return 0;
     }
     fprintf(f, "%d\n",studentCount);
@@ -107,11 +107,31 @@ int saveOnFile(const char *fileName){
             studentList[i].GPA);
     }
     fclose(f);
-    printf("%d student(s) saved on %s\n ",studentCount, fileName);
+    printf("%d student(s) has/have been saved on %s\n ",studentCount, fileName);
 };
 
 
 
 int chargeFromFile(const char *fileName){
-
+    File *f = fopen(fileName,"r");
+    if(f==NULL){
+        printf("no file %s has been found.\n", fileName);
+        return 0;
+    }
+    int nb
+    if (fscanf(f,"%d\n",&nb)!=1){
+        fclose(f);
+        return 0;
+    }
+    studentCount = 0
+    for (int i = 0 ; i < nb && i < MAX_STUDENTS ; i++){
+        Student e;
+        if (fscanf(f,"d;%49[^;];%49[^;];%f\n"),&e.id,e.firstname,e.lastname,&e.grade){
+            studentList[studentCount] = e;
+            studentCount++;
+        }
+    }
+    fclose(f)
+    printf("%d student(s) has/have been charged from file '%s'\n", studentCount, filePath);
+    return 1;
 };
