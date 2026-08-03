@@ -10,7 +10,7 @@ void addStudent(int id,const char *firstname, const char *lastname, float GPA){
         printf("The list is full (max %d students)\n", MAX_STUDENTS);
         return;
     }
-    if (searchById(id) != -1 ){
+    if (searchById(id) == -1 ){
         printf("A student with ID: %d already exists.\n", id);
         return;
     }
@@ -52,8 +52,8 @@ int searchByName(const char *lastname){
 
 
 void showOneStudent(const Student *e){
-    printf("ID:%-5D Firstname:%-15s Lastname:%-15s GPA:%.2F"),
-    e->id, e->firstname,e->lastname,e->GPA;
+    printf("ID:%-5d Firstname:%-15s Lastname:%-15s GPA:%.2f\n",
+    e->id, e->firstname,e->lastname,e->GPA);
     return;
 };
 
@@ -107,8 +107,7 @@ int saveOnFile(const char *fileName){
             studentList[i].GPA);
     }
     fclose(f);
-    printf("%d student(s) saved on %s ");
-    
+    printf("%d student(s) saved on %s\n ",studentCount, fileName);
 };
 
 
