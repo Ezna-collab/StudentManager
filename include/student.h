@@ -4,7 +4,7 @@
 
 #define MAX_STUDENTS 100
 #define SIZE_NAME 50
-#define DATA_FILE "students.txt"
+#define DATA_FILE "data/students.txt"
 
 
 typedef struct {
@@ -16,12 +16,11 @@ typedef struct {
 
 extern Student studentList[MAX_STUDENTS];
 extern int studentCount;
-
+extern int hasUnsavedChanges;
 
 void addStudent(int id, const char *firstname, const char *lastname, float GPA);
 
 
-int searchByNAme(const char *lastname);
 int searchById(int id);
 
 void showAllStudent(void);

@@ -4,17 +4,18 @@
 
 Student studentList[MAX_STUDENTS];
 int studentCount = 0;
+int hasUnsavedChanges = 0;
 
 void addStudent(int id,const char *firstname, const char *lastname, float GPA){
     if(studentCount >= MAX_STUDENTS){
         printf("The list is full (max %d students)\n", MAX_STUDENTS);
         return;
     }
-    if (searchById(id) == -1 ){
+    if (searchById(id) != -1 ){
         printf("A student with ID: %d already exists.\n", id);
         return;
     }
-    
+
     Student new_student;
     new_student.id = id;
     strncpy (new_student.firstname,firstname,SIZE_NAME -1);
@@ -26,6 +27,7 @@ void addStudent(int id,const char *firstname, const char *lastname, float GPA){
 
     studentList[studentCount] = new_student;
     studentCount++;
+    hasUnsavedChanges = 1;
     printf("Student '%s %s' 'id: %d' have been added successfully.\n", firstname,lastname,id);
 };
 
@@ -36,19 +38,9 @@ int searchById(int id){
         if (studentList[s].id == id){
             return s;
         }
-        return -1;
     }
+    return -1;   
 };
-
-int searchByName(const char *lastname){
-    for (int s = 0; s < studentCount; s++){
-        if (strcmp(studentList[s].lastname,lastname)==0){
-            return s;
-        }
-        return -1;
-    }
-};
-
 
 
 void showOneStudent(const Student *e){
@@ -68,10 +60,9 @@ void showAllStudent(void){
     printf("=================STUDENTS LIST================\n");
     for (int s=0; s < studentCount; s++){
         showOneStudent(&studentList[s]);
-        return;
     }
-}
-
+    return;
+    }
 
 
 
@@ -84,9 +75,10 @@ int deleteStudent(int id){
     }
 
     for (int s = index; s < studentCount-1; s++){
-        studentList[s] = studentList[s-1];
+        studentList[s] = studentList[s+1];
     }
     studentCount--;
+    hasUnsavedChanges = 1;
     printf("Student with id:%d have been deleted successfully\n",id);
     return 1;
 };
@@ -98,7 +90,7 @@ int saveOnFile(const char *filePath){
         printf("Cannot open %s as writing\n", filePath);
         return 0;
     }
-    fprintf(f, "%d\n",studentCount);
+    fprintf(f, "%d - students\n",studentCount);
     for ( int i = 0; i < studentCount; i++){
         fprintf(f,"%d;%s;%s;%.2f\n",
             studentList[i].id,
@@ -107,31 +99,32 @@ int saveOnFile(const char *filePath){
             studentList[i].GPA);
     }
     fclose(f);
-    printf("%d student(s) has/have been saved on %s\n ",studentCount, fileName);
-};
+    hasUnsavedChanges = 0;
+    printf("%d student(s) has/have been saved on %s\n ",studentCount, filePath);
+}
 
 
 
 int chargeFromFile(const char *fileName){
-    File *f = fopen(fileName,"r");
+    FILE *f = fopen(fileName,"r");
     if(f==NULL){
         printf("no file %s has been found.\n", fileName);
         return 0;
     }
-    int nb
+    int nb;
     if (fscanf(f,"%d\n",&nb)!=1){
         fclose(f);
         return 0;
     }
-    studentCount = 0
+    studentCount = 0;
     for (int i = 0 ; i < nb && i < MAX_STUDENTS ; i++){
         Student e;
-        if (fscanf(f,"d;%49[^;];%49[^;];%f\n"),&e.id,e.firstname,e.lastname,&e.grade){
+        if (fscanf(f,"%d;%49[^;];%49[^;];%f\n", &e.id, e.firstname, e.lastname, &e.GPA) == 4){
             studentList[studentCount] = e;
             studentCount++;
         }
     }
-    fclose(f)
-    printf("%d student(s) has/have been charged from file '%s'\n", studentCount, filePath);
+    fclose(f);
+    printf("%d student(s) has/have been charged from file '%s'\n", studentCount, fileName);
     return 1;
 };
