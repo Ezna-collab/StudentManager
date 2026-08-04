@@ -101,6 +101,7 @@ int saveOnFile(const char *filePath){
     fclose(f);
     hasUnsavedChanges = 0;
     printf("%d student(s) has/have been saved on %s\n ",studentCount, filePath);
+    return 1;
 }
 
 
@@ -112,7 +113,7 @@ int chargeFromFile(const char *fileName){
         return 0;
     }
     int nb;
-    if (fscanf(f,"%d\n",&nb)!=1){
+    if (fscanf(f,"%d - students\n",&nb)!=1){
         fclose(f);
         return 0;
     }
