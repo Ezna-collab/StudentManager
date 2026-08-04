@@ -6,27 +6,10 @@
 
 #define DATA_FILE "data/students.txt"
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void Buffer(void) {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
 
 int main(void){
     chargeFromFile(DATA_FILE);
@@ -42,7 +25,7 @@ int main(void){
         printf("0.exit.\n");
         printf("Choose : ");
         scanf("%d", &choice);
-        //videbuffer
+        Buffer();
 
 
         switch (choice){
@@ -55,14 +38,14 @@ int main(void){
                 scanf("%d", &id);
                 //viderBuffer();
                 printf("Lastname: ");
-                fgets(nom, SIZE_NAME, stdin);
+                fgets(lastname, SIZE_NAME, stdin);
                 lastname[strcspn(lastname, "\n")] = '\0';
                 printf("Firstname: ");
                 fgets(firstname, SIZE_NAME, stdin);
                 firstname[strcspn(firstname, "\n")] = '\0';
                 printf("GPA : ");
                 scanf("%f", &GPA);
-                //viderBuffer();
+                Buffer();
  
                 addStudent(id, lastname, firstname, GPA);
                 break;
@@ -71,7 +54,7 @@ int main(void){
                 int id;
                 printf("Enter student ID: ");
                 scanf("%d", &id);
-                //viderBuffer();
+                Buffer();
                 int index = searchById(id);
                 if (index != -1) {
                     showOneStudent(&studentList[index]);
@@ -87,7 +70,7 @@ int main(void){
                 int id;
                 printf("Enter student ID: ");
                 scanf("%d", &id);
-                //viderBuffer();
+                Buffer();
                 deleteStudent(id);
                 break;
             }
@@ -95,7 +78,7 @@ int main(void){
                 saveOnFile(DATA_FILE);
                 break;
              case 0:
-                printf("Save befor leaving...\n");
+                printf("Save before leaving...\n");
                 sauvegarderDansFichier(DATA_FILE);
                 printf("GOODBYE !\n");
                 break;
