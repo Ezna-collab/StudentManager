@@ -2,7 +2,7 @@
 #define STUDENT_H
 
 #define SIZE_NAME 50
-#define INITIAL_CAPACITY 10          /* capacite initiale allouee dynamiquement */
+#define INITIAL_CAPACITY 10          /* capacite initiale qui sera allouee dynamiquement dans le programme */
 #define DATA_FILE "data/students.txt"
 
 typedef struct {
@@ -12,14 +12,13 @@ typedef struct {
     float GPA;
 } Student;
 
-/* studentList est maintenant un pointeur alloue dynamiquement (malloc/realloc),
-   et non plus un tableau statique de taille fixe. */
+/* studentList est maintenant un pointer alloue dynamiquemant */
 extern Student *studentList;
 extern int studentCount;
 extern int studentCapacity;
 extern int hasUnsavedChanges;
 
-/* Allocation / liberation de la memoire de la liste */
+/* liberation de la memoire de la liste */
 int initStudentList(int initialCapacity);
 void freeStudentList(void);
 

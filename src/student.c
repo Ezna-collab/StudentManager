@@ -8,8 +8,7 @@ int studentCount = 0;
 int studentCapacity = 0;
 int hasUnsavedChanges = 0;
 
-/* Alloue la memoire initiale de la liste avec malloc.
-   A appeler une seule fois, au demarrage du programme (dans main). */
+/* Alloue la memoire initiale de la liste avec malloc */
 int initStudentList(int initialCapacity) {
     if (initialCapacity <= 0) {
         initialCapacity = INITIAL_CAPACITY;
@@ -26,8 +25,7 @@ int initStudentList(int initialCapacity) {
     return 1;
 }
 
-/* Libere la memoire allouee pour la liste.
-   A appeler une seule fois, avant de quitter le programme (dans main). */
+/* Libere la memoire allouee pour la liste */
 void freeStudentList(void) {
     free(studentList);
     studentList = NULL;
@@ -35,7 +33,7 @@ void freeStudentList(void) {
     studentCapacity = 0;
 }
 
-/* Agrandit dynamiquement la liste (via realloc) si sa capacite actuelle
+/* Agrandit dynamiquement la liste si sa capacite actuelle pendant le progrmame
    ne suffit plus a contenir "needed" etudiants. Double la capacite a
    chaque agrandissement pour limiter le nombre de realloc necessaires. */
 static int ensureCapacity(int needed) {

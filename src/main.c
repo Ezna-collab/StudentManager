@@ -4,7 +4,7 @@
 #include "../include/student.h"
 
 int main(void) {
-    /* Allocation dynamique de la liste des etudiants (malloc, dans student.c) */
+    /* Allocation dinamique de la liste des etudiants */
     if (!initStudentList(INITIAL_CAPACITY)) {
         return 1;
     }
@@ -78,7 +78,7 @@ int main(void) {
         }
     } while (choix != 6);
 
-    /* Liberation de la memoire allouee dynamiquement (free, dans student.c) */
+    /* Liberation de la memoire allouee dynamiquemant */
     freeStudentList();
     return 0;
 }
