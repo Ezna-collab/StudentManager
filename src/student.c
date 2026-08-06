@@ -64,7 +64,7 @@ void addStudent(int id, const char *firstname, const char *lastname, float GPA) 
     }
 
     if (!ensureCapacity(studentCount + 1)) {
-        return; /* memoire insuffisante : on abandonne l'ajout sans planter */
+        return; /* memoire insuffisante */
     }
 
     Student new_student;
