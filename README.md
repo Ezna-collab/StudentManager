@@ -54,11 +54,6 @@ This will compile the project and produce an executable named `main` that will b
 gcc src/main.c src/student.c -Iinclude -o main
 ```
 
-## Run
-
-```bash
-./main
-```
 
 ## Usage
 
