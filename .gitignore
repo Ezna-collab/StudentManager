@@ -1,0 +1,9 @@
+# Exécutables compilés
+main
+*.o
+*.out
+build/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

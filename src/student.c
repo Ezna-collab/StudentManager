@@ -1,20 +1,80 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "../include/student.h"
 
-Student studentList[MAX_STUDENTS];
+Student *studentList = NULL;
+int studentCapacity = 0;
 int studentCount = 0;
 int hasUnsavedChanges = 0;
 
-void addStudent(int id,const char *firstname, const char *lastname, float GPA){
-    if(studentCount >= MAX_STUDENTS){
-        printf("The list is full (max %d students)\n", MAX_STUDENTS);
-        return;
+int initStudentList(int initialCapacity) {
+    if (initialCapacity <= 0) {
+        initialCapacity = INITIAL_CAPACITY;
     }
+
+    studentList = malloc((size_t)initialCapacity * sizeof(Student));
+    if (studentList == NULL) {
+        printf("Erreur : allocation memoire impossible.\n");
+        return 0;
+    }
+
+    studentCapacity = initialCapacity;
+    studentCount = 0;
+    return 1;
+}
+
+void freeStudentList(void) {
+    free(studentList);
+    studentList = NULL;
+    studentCount = 0;
+    studentCapacity = 0;
+}
+
+static int ensureCapacity(int necessary) {
+    if (necessary <= studentCapacity) {
+        return 1;
+    }
+
+    int newCapacity = (studentCapacity == 0) ? INITIAL_CAPACITY : studentCapacity * 2;
+    while (newCapacity < necessary) {
+        newCapacity *= 2;
+    }
+
+    Student *tmp = realloc(studentList, (size_t)newCapacity * sizeof(Student));
+    if (tmp == NULL) {
+        printf("Erreur : impossible d'agrandir la liste (memoire insuffisante).\n");
+        return 0;
+    }
+
+    studentList = tmp;
+    studentCapacity = newCapacity;
+    return 1;
+}
+
+int getNextId(void) {
+    if (studentCount == 0) {
+        return 1001;
+    }
+    int maxId = studentList[0].id;
+    for (int i = 1; i < studentCount; i++) {
+        if (studentList[i].id > maxId) {
+            maxId = studentList[i].id;
+        }
+    }
+    return maxId + 1;
+}
+
+void addStudent(int id,const char *firstname, const char *lastname, float GPA){
     if (searchById(id) != -1 ){
         printf("A student with ID: %d already exists.\n", id);
         return;
     }
+
+    if (!ensureCapacity(studentCount + 1)) {
+        return; /* memoire insuffisante : on abandonne l'ajout sans planter */
+    }
+
 
     Student new_student;
     new_student.id = id;
@@ -117,10 +177,19 @@ int chargeFromFile(const char *fileName){
         fclose(f);
         return 0;
     }
+
+    if (!ensureCapacity(nb)) {
+        fclose(f);
+        return 0;
+    }
+
     studentCount = 0;
-    for (int i = 0 ; i < nb && i < MAX_STUDENTS ; i++){
+    for (int i = 0; i < nb; i++) {
         Student e;
-        if (fscanf(f,"%d;%49[^;];%49[^;];%f\n", &e.id, e.firstname, e.lastname, &e.GPA) == 4){
+        if (fscanf(f, "%d;%49[^;];%49[^;];%f\n", &e.id, e.firstname, e.lastname, &e.GPA) == 4) {
+            if (!ensureCapacity(studentCount + 1)) {
+                break; /* memoire insuffisante : on garde ce qui a deja ete charge */
+            }
             studentList[studentCount] = e;
             studentCount++;
         }
@@ -128,4 +197,4 @@ int chargeFromFile(const char *fileName){
     fclose(f);
     printf("%d student(s) has/have been charged from file '%s'\n", studentCount, fileName);
     return 1;
-};
+}

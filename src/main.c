@@ -138,6 +138,11 @@ int askYesNo(const char *message) {
 }
 
 int main(void){
+
+    if (!initStudentList(INITIAL_CAPACITY)) {
+        return 1;
+    }
+
     chargeFromFile(DATA_FILE);
 
     int choice;
@@ -154,11 +159,11 @@ int main(void){
 
         switch (choice){
             case 1 :{
-                int id;
+                int id = getNextId();
                 char lastname[SIZE_NAME], firstname[SIZE_NAME];
                 float GPA;
 
-                id = readInt("ID : ", 0, 999999);
+                printf("ID : %d\n", id);
                 readString("Firstname: ", firstname, SIZE_NAME);
                 readString("Lastname: ", lastname, SIZE_NAME);
                 GPA = readFloat("GPA : ", 0.0f, 4.0f);
@@ -200,5 +205,6 @@ int main(void){
         }
     } while (choice != 0);
 
+    freeStudentList();
     return 0;
 }

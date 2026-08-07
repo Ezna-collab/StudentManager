@@ -1,0 +1,6 @@
+5 - students
+1001;Jean;Baptist;3.37
+1002;Marc;Joseph;3.30
+1003;Luc;Mathieux;2.90
+1004;Mars;Joseph;3.40
+1005;Aviel;Rose;2.80

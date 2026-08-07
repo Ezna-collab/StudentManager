@@ -2,7 +2,7 @@
 #define STUDENT_H
 
 
-#define MAX_STUDENTS 100
+#define INITIAL_CAPACITY 10
 #define SIZE_NAME 50
 #define DATA_FILE "data/students.txt"
 
@@ -14,12 +14,15 @@ typedef struct {
     float GPA;
 } Student;
 
-extern Student studentList[MAX_STUDENTS];
+extern Student *studentList;
+extern int studentCapacity;
 extern int studentCount;
 extern int hasUnsavedChanges;
 
+int initStudentList(int initialCapacity);
+void freeStudentList(void);
 void addStudent(int id, const char *firstname, const char *lastname, float GPA);
-
+int getNextId(void);
 
 int searchById(int id);
 

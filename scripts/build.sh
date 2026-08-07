@@ -18,7 +18,10 @@ mkdir -p data
 gcc src/main.c src/student.c -Iinclude -Wall -Wextra -o main
 
 if [ $? -eq 0 ]; then
-    echo "Build successful! Run the program with: ./main"
+    echo "Build successful!"
+    echo "Launching the program..."
+    echo ""
+    ./main
 else
     echo "Build failed."
     exit 1
