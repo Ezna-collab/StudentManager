@@ -172,7 +172,7 @@ int main(void){
                 break;
             }
             case 2: {
-                int id = readInt("Enter student ID: ", 0, 999999);
+                int id = readInt("Enter student ID: ", 1001, 999999);
                 int index = searchById(id);
                 if (index != -1) {
                     showOneStudent(&studentList[index]);
@@ -185,7 +185,7 @@ int main(void){
                 showAllStudent();
                 break;
             case 4: {
-                int id = readInt("Enter student ID: ", 0, 999999);
+                int id = readInt("Enter student ID: ", 1001, 999999);
                 deleteStudent(id);
                 break;
             }

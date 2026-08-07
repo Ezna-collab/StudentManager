@@ -121,6 +121,7 @@ void showAllStudent(void){
     for (int s=0; s < studentCount; s++){
         showOneStudent(&studentList[s]);
     }
+    printf("----------------------------------------------\n");
     return;
     }
 
