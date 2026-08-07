@@ -8,6 +8,10 @@ int studentCapacity = 0;
 int studentCount = 0;
 int hasUnsavedChanges = 0;
 
+/** initialization of the student list with a given initial capacity. Returns 1 on success, 0 on failure. 
+ * using malloc to allocate memory for the student list for a better management of the memory. If the allocation fails, an error message is printed and 0 is returned.
+ * If the allocation is successful, the studentCapacity is set to the initial capacity, studentCount is set to 0, and 1 is returned to indicate success.
+*/
 int initStudentList(int initialCapacity) {
     if (initialCapacity <= 0) {
         initialCapacity = INITIAL_CAPACITY;
@@ -24,6 +28,8 @@ int initStudentList(int initialCapacity) {
     return 1;
 }
 
+
+/** fonction to clear the student list when needed */
 void freeStudentList(void) {
     free(studentList);
     studentList = NULL;
@@ -31,6 +37,7 @@ void freeStudentList(void) {
     studentCapacity = 0;
 }
 
+/** Ensure the student list has enough capacity for the specified number of students */
 static int ensureCapacity(int necessary) {
     if (necessary <= studentCapacity) {
         return 1;
@@ -38,7 +45,7 @@ static int ensureCapacity(int necessary) {
 
     int newCapacity = (studentCapacity == 0) ? INITIAL_CAPACITY : studentCapacity * 2;
     while (newCapacity < necessary) {
-        newCapacity *= 2;
+        newCapacity *= 2; /* if the capacity exceeds the inital limit, it will be doubled */
     }
 
     Student *tmp = realloc(studentList, (size_t)newCapacity * sizeof(Student));
@@ -52,6 +59,11 @@ static int ensureCapacity(int necessary) {
     return 1;
 }
 
+
+/** Setting automatically the ID for a new student
+ * Remark: The initial ID is set to 1001 if the list is empty, otherwise it is set to the maximum existing ID + 1. 
+ * This ensures that each student has a unique ID.
+ */
 int getNextId(void) {
     if (studentCount == 0) {
         return 1001;
@@ -65,6 +77,7 @@ int getNextId(void) {
     return maxId + 1;
 }
 
+/** Add a new student to the list */
 void addStudent(int id,const char *firstname, const char *lastname, float GPA){
     if (searchById(id) != -1 ){
         printf("A student with ID: %d already exists.\n", id);
@@ -72,7 +85,7 @@ void addStudent(int id,const char *firstname, const char *lastname, float GPA){
     }
 
     if (!ensureCapacity(studentCount + 1)) {
-        return; /* memoire insuffisante : on abandonne l'ajout sans planter */
+        return; /* memoire insuffisante */
     }
 
 
@@ -88,11 +101,12 @@ void addStudent(int id,const char *firstname, const char *lastname, float GPA){
     studentList[studentCount] = new_student;
     studentCount++;
     hasUnsavedChanges = 1;
-    printf("Student '%s %s' 'id: %d' have been added successfully.\n", firstname,lastname,id);
+    printf("Student '%s %s' is added successfully.\n", firstname,lastname);
 };
 
 
 
+/** Search for a student by their ID */
 int searchById(int id){
     for (int s = 0; s < studentCount; s++){
         if (studentList[s].id == id){
@@ -110,7 +124,7 @@ void showOneStudent(const Student *e){
 };
 
 
-
+/** Display all students that are currently in the list */
 void showAllStudent(void){
     if (studentCount == 0){
         printf("There is no student yet.\n");
@@ -126,7 +140,7 @@ void showAllStudent(void){
     }
 
 
-
+/** Delete a student and his/her information by their ID */
 int deleteStudent(int id){
     int index = searchById(id);
 
@@ -140,11 +154,11 @@ int deleteStudent(int id){
     }
     studentCount--;
     hasUnsavedChanges = 1;
-    printf("Student with id:%d have been deleted successfully\n",id);
+    printf("Student with the id:%d have been deleted successfully\n",id);
     return 1;
 };
 
-
+/** Save the student list to the file "students.txt"*/
 int saveOnFile(const char *filePath){
     FILE *f = fopen(filePath, "w");
     if (f == NULL){
@@ -166,7 +180,7 @@ int saveOnFile(const char *filePath){
 }
 
 
-
+/** Load the student list from the file "students.txt" */
 int chargeFromFile(const char *fileName){
     FILE *f = fopen(fileName,"r");
     if(f==NULL){

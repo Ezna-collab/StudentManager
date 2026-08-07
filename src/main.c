@@ -6,7 +6,9 @@
 
 #define DATA_FILE "data/students.txt"
 
-// Reads an integer safely, within bounds [min, max]
+/* The following functions provide a safe way to read user input and ensure data integrity */
+
+// Reads an integer safely and within the bounds we set.
 int readInt(const char *message, int min, int max) {
     char buffer[100];
     long value;
@@ -43,7 +45,7 @@ int readInt(const char *message, int min, int max) {
     }
 }
 
-// Reads a float safely, within bounds [min, max]
+// Reads a float safely, within bounds.
 float readFloat(const char *message, float min, float max) {
     char buffer[100];
     float value;
@@ -80,7 +82,7 @@ float readFloat(const char *message, float min, float max) {
     }
 }
 
-// Reads a non-empty string (firstname/lastname), with max size
+// Reads a non-empty string (firstname/lastname for exemple), with max size
 void readString(const char *message, char *dest, int size) {
     while (1) {
         printf("%s", message);
@@ -137,6 +139,7 @@ int askYesNo(const char *message) {
     }
 }
 
+/* This is the "UI" of the program, in this function we manage the main menu and user interactions */
 int main(void){
 
     if (!initStudentList(INITIAL_CAPACITY)) {
@@ -145,16 +148,22 @@ int main(void){
 
     chargeFromFile(DATA_FILE);
 
+
+    /* The user will be presented a menu of differents actions that are available in the program
+    * The user can choose an action by entering the corresponding number. The program will then execute the chosen action.
+    * The menu will keep appearing until the user chooses to exit the program.
+    */
     int choice;
     do{
-        printf("\n================STUDENT MANAGER===================\n");
+        printf("\n================STUDENT MANAGER====================\n");
         printf("1. Add student.\n");
         printf("2. Search a student.\n");
         printf("3. Show all the students.\n");
         printf("4. Delete a student.\n");
         printf("5. save.\n");
         printf("0. exit.\n");
-
+        printf("====================================================\n");
+        printf("\n");
         choice = readInt("Choose : ", 0, 5);
 
         switch (choice){
@@ -198,7 +207,7 @@ int main(void){
                         saveOnFile(DATA_FILE);
                     }
                 }
-                printf("GOODBYE !\n");
+                printf("GOODBYE ! See you later.\n");
                 break;
             default:
                 printf("Invalid choice.\n");
