@@ -1,6 +1,7 @@
 #!/bin/bash
 # Build script for Student Manager
 # Run this from the project root: ./scripts/build.sh
+# Homework done by: Cornet Ezna, Dely Judekerly et Janvier Djevenson.
 
 set -e  # Stop the script if any command fails
 
