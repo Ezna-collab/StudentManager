@@ -79,13 +79,9 @@ int getNextId(void) {
 
 /** Add a new student to the list */
 void addStudent(int id,const char *firstname, const char *lastname, float GPA){
-    if (searchById(id) != -1 ){
-        printf("A student with ID: %d already exists.\n", id);
-        return;
-    }
 
     if (!ensureCapacity(studentCount + 1)) {
-        return; /* memoire insuffisante */
+        return; /* No extra memory */
     }
 
 
@@ -203,7 +199,7 @@ int chargeFromFile(const char *fileName){
         Student e;
         if (fscanf(f, "%d;%49[^;];%49[^;];%f\n", &e.id, e.firstname, e.lastname, &e.GPA) == 4) {
             if (!ensureCapacity(studentCount + 1)) {
-                break; /* memoire insuffisante : on garde ce qui a deja ete charge */
+                break; /* No extra memory */
             }
             studentList[studentCount] = e;
             studentCount++;
