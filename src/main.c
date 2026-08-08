@@ -183,7 +183,8 @@ int main(void){
             case 2: {
                 int id = readInt("Enter student ID: ", 1001, 999999);
                 int index = searchById(id);
-                if (index != -1) {
+                printf("\n");
+                if (index != -1) {   
                     showOneStudent(&studentList[index]);
                 } else {
                     printf("Student not found.\n");
@@ -191,10 +192,12 @@ int main(void){
                 break;
             }
             case 3:
+                printf("\n");
                 showAllStudent();
                 break;
             case 4: {
                 int id = readInt("Enter student ID: ", 1001, 999999);
+                printf("\n");
                 deleteStudent(id);
                 break;
             }
